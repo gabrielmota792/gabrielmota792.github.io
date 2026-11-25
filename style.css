@@ -1,0 +1,794 @@
+/* ==========================================================
+   PORTFÓLIO DO GABRIEL · style.css
+   ----------------------------------------------------------
+   ÍNDICE
+   1. Variáveis (cores e tema)
+   2. Base e reset
+   3. Layout geral
+   4. Componentes comuns (títulos, botões)
+   5. Menu (nav)
+   6. Início (hero)
+   7. Tecnologias
+   8. Sobre mim
+   9. Projetos
+   10. Contato (chamada final)
+   11. Rodapé
+   12. Responsivo (celular)
+   ========================================================== */
+
+
+/* ==========================================================
+   1. VARIÁVEIS (cores e tema)
+   Para mudar o visual do site inteiro, edite só aqui.
+   ========================================================== */
+
+/* Tema escuro (padrão) */
+:root {
+  --bg: #080813;          /* fundo da página */
+  --bg2: #120d22;         /* fundo de faixas e blocos */
+  --card: #141024;        /* fundo dos cartões */
+  --text: #f2f0ff;        /* texto principal */
+  --muted: #a9a3c4;       /* texto secundário */
+  --accent: #8b4dff;      /* roxo principal */
+  --accent2: #b07bff;     /* roxo claro (destaques) */
+  --line: #2a2145;        /* bordas */
+
+  --ok: #1f8a4c;          /* selo "Concluído" (fundo) */
+  --okt: #5be394;         /* selo "Concluído" (texto) */
+  --wip: #5a2fc2;         /* selo "Em desenvolvimento" (fundo) */
+  --wipt: #d9c8ff;        /* selo "Em desenvolvimento" (texto) */
+
+  color-scheme: dark;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Tema claro (usado quando o aparelho está no modo claro) */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f7f5ff;
+    --bg2: #ece7ff;
+    --card: #ffffff;
+    --text: #1a1233;
+    --muted: #5f5882;
+    --accent: #7a35f0;
+    --accent2: #7a35f0;
+    --line: #ddd5f7;
+    --ok: #d6f5e3;
+    --okt: #14703d;
+    --wip: #e5dbff;
+    --wipt: #4a22a8;
+    color-scheme: light;
+  }
+}
+
+/* Tema claro forçado (data-theme="light" no <html>) */
+:root[data-theme="light"] {
+  --bg: #f7f5ff;
+  --bg2: #ece7ff;
+  --card: #ffffff;
+  --text: #1a1233;
+  --muted: #5f5882;
+  --accent: #7a35f0;
+  --accent2: #7a35f0;
+  --line: #ddd5f7;
+  --ok: #d6f5e3;
+  --okt: #14703d;
+  --wip: #e5dbff;
+  --wipt: #4a22a8;
+  color-scheme: light;
+}
+
+
+/* ==========================================================
+   2. BASE E RESET
+   ========================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;   /* rolagem suave ao clicar no menu */
+  scroll-padding-top: 80px;  /* espaço para o menu fixo não cobrir o título */
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: Poppins, system-ui, sans-serif;
+  line-height: 1.6;
+
+  background:
+    radial-gradient(ellipse 60% 40% at 0% 0%, rgba(139, 77, 255, 0.22), transparent 70%),     /* brilho roxo no canto superior esquerdo */
+    radial-gradient(ellipse 50% 35% at 100% 100%, rgba(139, 77, 255, 0.18), transparent 70%), /* brilho roxo no canto inferior direito */
+    var(--bg);
+  background-attachment: fixed;   /* o fundo acompanha a tela, sem esticar */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Barra de fundo na área do relógio/bateria (celulares) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 30;
+  background: var(--bg);
+}
+
+
+/* ==========================================================
+   3. LAYOUT GERAL
+   ========================================================== */
+
+/* Largura máxima e margens laterais do conteúdo */
+.wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Espaço vertical de cada seção */
+section {
+  padding: 56px 0;
+}
+
+
+/* ==========================================================
+   4. COMPONENTES COMUNS
+   ========================================================== */
+
+/* ---- Títulos ---- */
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+h2 {
+  font-size: clamp(1.6rem, 4vw, 2.1rem);
+  line-height: 1.2;
+  margin: 6px 0 12px;
+}
+
+h2 span {
+  color: var(--accent2);   /* palavra destacada em lilás */
+}
+
+/* ---- Título com barra roxa ao lado ---- */
+.bar {
+  border-left: 3px solid var(--accent);
+  padding-left: 12px;
+}
+
+.bar h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.bar small {
+  color: var(--muted);
+}
+
+/* ---- Botões ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 24px;
+  margin: 6px 8px 0 0;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+/* Botão principal (roxo com brilho) */
+.btn.main {
+  background: linear-gradient(90deg, #6b2fe8, var(--accent));
+  color: #ffffff;
+  border: 0;
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 45%, transparent);
+  padding: 10px 20px;
+}
+
+/* ---- Botão pílula (contorno roxo) ---- */
+.pill {
+  padding: 9px 18px;
+  border: 1px solid var(--accent);
+  border-radius: 99px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+
+/* ==========================================================
+   5. MENU (nav)
+   ========================================================== */
+
+nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+nav .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  height: 72px;
+}
+
+/* Logo "</> GABRIEL." */
+.logo {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.logo b {
+  color: var(--accent2);   /* o ponto final colorido */
+}
+
+/* Links do menu */
+.links {
+  display: flex;
+  gap: 28px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.links a:hover {
+  color: var(--text);
+}
+
+
+/* ==========================================================
+   6. INÍCIO (hero)
+   ========================================================== */
+
+.hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 520px;
+    padding: 56px 0 64px;
+    overflow: hidden;
+  
+}
+
+.hero::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 66.67%;
+    height: 100%;
+    z-index: 0;
+    background:
+        linear-gradient(90deg, var(--bg) 0%, transparent 25%, transparent 75%, var(--bg) 100%),
+        linear-gradient(0deg, var(--bg) 0%, transparent 30%),
+        url("img/hero.jpg") center / cover no-repeat;
+}
+
+/* Duas colunas: texto à esquerda, notebook à direita */
+.hero .wrap {
+   position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+.hero .pill {
+  padding: 10px 20px;
+  font-size: 0.92rem;
+  margin: 6px 8px 0 0;
+}
+
+nav .btn {
+  padding: 8px 18px;
+  font-size: 0.8rem;
+}
+
+
+/* Selo "Disponível para projetos" */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: 0.82rem;
+}
+
+.badge i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #2ee66f;   /* bolinha verde */
+}
+
+/* "Olá, sou Gabriel." */
+h1 {
+  margin: 18px 0 10px;
+  font-size: clamp(2.3rem, 6vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+h1 span {
+  color: var(--accent2);
+}
+
+/* "Transformo ideias em soluções digitais." */
+.sub {
+  margin: 0 0 16px;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--accent2);
+}
+
+/* Parágrafo de apresentação */
+.hero p.d {
+  max-width: 480px;
+  color: var(--muted);
+}
+
+.hero p.d b {
+  color: var(--text);
+}
+
+/* Desenho do notebook */
+.laptop {
+    display: block;
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  object-position: right;
+  border-radius: 24px;
+
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 30%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 30%);
+}
+
+
+/* ==========================================================
+   7. TECNOLOGIAS
+   ========================================================== */
+
+/* Faixa que envolve título + chips */
+.tech {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+  margin-top: 8px;
+  padding: 26px;
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 32px;
+}
+
+/* Lista de chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  gap: 10px;
+  min-width: 260px;
+}
+
+/* Cada chip (aceita emoji ou imagem) */
+.chips span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: 0.88rem;
+}
+
+/* Logo dentro do chip */
+.chips img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+
+/* ==========================================================
+   8. SOBRE MIM
+   ========================================================== */
+
+/* Três colunas: ícone | texto | qualidades */
+.about {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 44px;
+  align-items: center;
+}
+
+/* ---- Ícone "</>" (coluna 1) ---- */
+.icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 230px;
+  height: 230px;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 14%, var(--card)), var(--bg2));
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+  border-radius: 30px;
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--accent2);
+  text-shadow: 0 0 28px color-mix(in srgb, var(--accent) 80%, transparent);   /* brilho no </> */
+  box-shadow:
+    0 0 60px color-mix(in srgb, var(--accent) 28%, transparent),              /* luz por fora */
+    inset 0 0 40px color-mix(in srgb, var(--accent) 12%, transparent);        /* luz por dentro */
+}
+
+/* Clarão de luz no canto superior direito */
+.icon::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow:
+    0 0 10px 3px var(--accent2),
+    0 0 26px 8px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+/* Rastro da luz */
+.icon::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  right: 34px;
+  width: 46px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent2));
+}
+
+/* ---- Texto (coluna 2) ---- */
+.lbl {
+  padding-left: 10px;
+  border-left: 3px solid var(--accent);
+  font-weight: 600;
+}
+
+.about p {
+  max-width: 440px;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* ---- Qualidades (coluna 3) ---- */
+.feat {
+  display: grid;
+  gap: 18px;
+  padding-left: 32px;
+  border-left: 1px solid var(--line);
+}
+
+.feat div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+/* Caixinha de cada ícone: tudo em roxo */
+.feat b {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  color: var(--accent2);
+  background: color-mix(in srgb, var(--accent) 12%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+  border-radius: 12px;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.feat svg {
+  width: 22px;
+  height: 22px;
+}
+
+#sobre {
+  position: relative;
+}
+
+#sobre::before {
+  content: "";
+  position: absolute;
+  left: -14%;
+  bottom: -20px;
+  width: 60%;
+  height: 150px;
+  border-top: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-top-right-radius: 100% 100%;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent);
+  pointer-events: none;
+}
+
+#sobre > * {
+  position: relative;   /* o conteúdo fica na frente da curva */
+}
+
+/* Símbolo </> desenhado: tamanho e brilho */
+.icon svg {
+  width: 56%;
+  height: auto;
+  filter:
+    drop-shadow(0 0 8px color-mix(in srgb, var(--accent) 75%, transparent))
+    drop-shadow(0 0 22px color-mix(in srgb, var(--accent) 45%, transparent));
+}
+
+/* ==========================================================
+   9. PROJETOS
+   ========================================================== */
+
+/* Cabeçalho: título à esquerda, botão "Ver todos" à direita */
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.head .bar h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+/* Grade de cartões */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 16px;
+}
+
+/* Cartão do projeto */
+.proj {
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: 16px;
+  align-items: center;
+  min-height: 176px;
+  padding: 20px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, var(--card)), var(--card) 65%);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--line));
+  border-radius: 18px;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.proj:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 36px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+/* Quadrado do ícone do projeto */
+.pi {
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  background: radial-gradient(circle at 50% 55%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 70%);
+  border-radius: 14px;
+  
+}
+
+.pi svg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 10px color-mix(var(--accent)55%, transparent));
+}
+
+/*Texto do cartão*/
+.info h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  overflow-wrap: anywhere;
+}
+
+.info p {
+  margin: 10px 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/*Link saiba mais*/
+.info em {
+  font-style: normal;
+  font-size: 0.82rem;
+  color: var(--accent2);
+}
+
+/* Selo de status: verde = Concluído */
+.st {
+  display: inline-block;
+  padding: 3px 14px;
+  border-radius: 99px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #1f8a4c, #27a85d);
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(39, 168, 93, 0,35);
+}
+
+/* Selo de status: roxo = Em desenvolvimento */
+.st.w {
+  background: linear-gradient(90deg, #6b2fe8, #8b4dff);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 45% transparent);
+}
+
+/* Aviso "Projetos de exemplo" */
+.note {
+  margin-top: 12px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+
+/* ==========================================================
+   10. CONTATO (chamada final)
+   ========================================================== */
+
+.cta {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px;
+  padding: 34px 40px;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 0% 50%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 55%);
+              linear-gradiente(90deg, var(--card), var(--bg2));  
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  border-radius: 24px;
+  box-shadow: 0 0 50px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+/*Avião de papel*/
+.cta-icon{
+  flex: none;
+  width: 56px;
+  height: 56px;
+  color: var(--accent);
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 60%, transparent));
+}
+ /*Texto do meio*/
+ .cta-text{
+  flex: 1;
+  min-width: 1.5rem;
+ }
+
+.cta h2 {
+  margin: 0 0 4px;
+  font-size: 1.5rem;
+}
+
+.cta p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/*Botão levemente maior que o padrão*/
+.cta .btn{
+  padding: 15px 30px;
+}
+
+
+/* ==========================================================
+   11. RODAPÉ
+   ========================================================== */
+
+footer {
+  margin-top: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+}
+
+footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+footer small {
+  display: block;
+  color: var(--muted);
+}
+
+/* Ícones de redes sociais */
+.soc {
+  display: flex;
+  gap: 14px;
+}
+
+.soc a {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.soc a:hover {
+  border-color: var(--accent);
+}
+
+/* Frase final "Construindo soluções, juntos." */
+.fr {
+  font-size: 0.85rem;
+  color: var(--accent2);
+}
+
+
+/* ==========================================================
+   12. RESPONSIVO (celular e telas pequenas)
+   ========================================================== */
+
+@media (max-width: 800px) {
+
+  /* Menu: esconde os links (fica só logo e botão) */
+  .links {
+    display: none;
+  }
+
+  /* Início e Sobre mim: colunas viram uma só */
+  .hero .wrap,
+  .about {
+    grid-template-columns: 1fr;
+  }
+
+  /* Notebook menor */
+  .laptop {
+    max-width: 320px;
+  }
+
+  /* Sobre mim: ícone menor e lista sem a linha lateral */
+  .icon {
+    width: 130px;
+    height: 130px;
+    font-size: 3rem;
+  }
+
+  .feat {
+    padding: 0;
+    border: 0;
+  }
+
+  .laptop{
+    height: 240px;
+  }
+}
