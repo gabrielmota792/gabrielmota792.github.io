@@ -758,29 +758,85 @@ footer small {
    12. RESPONSIVO (celular e telas pequenas)
    ========================================================== */
 
+/* ---------- Celulares e tablets pequenos (até 800px) ---------- */
 @media (max-width: 800px) {
 
-  /* Menu: esconde os links (fica só logo e botão) */
+  /* Geral */
+  section {
+    padding: 40px 0;
+  }
+
+  .wrap {
+    padding: 0 16px;
+  }
+
+  body {
+    background-attachment: scroll;   /* o fundo fixo costuma falhar e pesar no celular */
+  }
+
+  /* Menu: esconde os links, fica só logo e botão */
+  nav .wrap {
+    height: 64px;
+  }
+
   .links {
     display: none;
   }
 
-  /* Início e Sobre mim: colunas viram uma só */
-  .hero .wrap,
+  .logo {
+    font-size: 1rem;
+  }
+
+  nav .pill {
+    padding: 8px 14px;
+    font-size: 0.78rem;
+  }
+
+  /* Início: imagem ocupa a largura toda, mais suave atrás do texto */
+  .hero {
+    min-height: 0;
+    padding: 40px 0 48px;
+  }
+
+  .hero::before {
+    width: 100%;
+    opacity: 0.35;
+  }
+
+  .sub {
+    font-size: 1.15rem;
+  }
+
+  .hero p.d {
+    max-width: none;
+  }
+
+  /* Tecnologias */
+  .tech {
+    gap: 16px;
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .chips {
+    min-width: 0;
+  }
+
+  .chips span {
+    padding: 7px 14px;
+    font-size: 0.82rem;
+  }
+
+  /* Sobre mim: colunas viram uma só */
   .about {
     grid-template-columns: 1fr;
+    gap: 28px;
+    justify-items: start;
   }
 
-  /* Notebook menor */
-  .laptop {
-    max-width: 320px;
-  }
-
-  /* Sobre mim: ícone menor e lista sem a linha lateral */
   .icon {
     width: 130px;
     height: 130px;
-    font-size: 3rem;
   }
 
   .feat {
@@ -788,7 +844,58 @@ footer small {
     border: 0;
   }
 
-  .laptop{
-    height: 240px;
+  #sobre::before {
+    display: none;   /* esconde a curva decorativa */
+  }
+
+  /* Projetos: um cartão por linha */
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .head {
+    align-items: flex-start;
+  }
+
+  /* Contato: tudo empilhado, botão na largura toda */
+  .cta {
+    gap: 20px;
+    padding: 26px 22px;
+  }
+
+  .cta-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .cta .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Rodapé: centralizado em coluna */
+  footer .wrap {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+
+/* ---------- Celulares pequenos (até 480px) ---------- */
+@media (max-width: 480px) {
+
+  /* Botões do início empilhados, na largura toda */
+  .hero .btn,
+  .hero .pill {
+    width: 100%;
+    justify-content: center;
+    margin-right: 0;
+  }
+
+  /* Cartões de projeto mais compactos */
+  .proj {
+    grid-template-columns: 84px 1fr;
+    gap: 14px;
+    padding: 16px;
   }
 }
