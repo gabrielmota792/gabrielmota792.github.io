@@ -35,10 +35,12 @@ function pickArt(r, i) {
 }
 
 /* ---------- Projetos de exemplo (aparecem até o GitHub carregar) ---------- */
+var USAR_GITHUB = false;   // true = busca automática | false = usa a lista abaixo
+
 var repos = [
-  {name:"App Finanças", description:"Aplicação de gestão de finanças pessoais, com foco em organização e controle financeiro.", html_url:"#", wip:true, art:"chart"},
-  {name:"Sistema de Tarefas", description:"Sistema web para gerenciamento de tarefas, com autenticação e banco de dados.", html_url:"#", wip:false, art:"laptop"},
-  {name:"API de Usuários", description:"API RESTful para gerenciamento de usuários, com operações completas (CRUD).", html_url:"#", wip:false, art:"users"}
+  {name:"app-financeiro", description:"App que ajuda a controlar gastos, monitorar a receita e organizar a vida financeira.", html_url:"https://github.com/gabrielmota792/app-financeiro", wip:true, art:"chart"},
+  {name:"nutridiet", description:"Aplicação de planejamento de dietas com Java, Spring Boot e MySQL.", html_url:"https://github.com/gabrielmota792/nutridiet", wip:true, art:"code"},
+  {name:"catalogo-produtos", description:"Catálogo de produtos desenvolvido em React.", html_url:"https://github.com/gabrielmota792/catalogo-produtos", wip:false, art:"laptop"}
 ];
 
 var grid = document.getElementById("grid"), note = document.getElementById("note");
