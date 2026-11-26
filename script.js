@@ -64,7 +64,7 @@ function render() {
 render();
 
 /* ---------- Busca os repositórios reais no GitHub ---------- */
-if (GITHUB_USER !== "SEU-USUARIO") {
+if (USAR_GITHUB && GITHUB_USER !== "SEU-USUARIO") {
   var CACHE_KEY = "repos-" + GITHUB_USER;
   var UMA_HORA = 3600000;
 
