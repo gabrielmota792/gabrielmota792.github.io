@@ -63,15 +63,41 @@ render();
 
 /* ---------- Busca os repositórios reais no GitHub ---------- */
 if (GITHUB_USER !== "SEU-USUARIO") {
-  fetch("https://api.github.com/users/" + GITHUB_USER + "/repos?sort=updated&per_page=30")
-    .then(function (r) { return r.json(); })
-    .then(function (data) {
-      if (!Array.isArray(data)) return;
-      var real = data.filter(function (r) { return !r.fork; }).map(function (r) {
-        r.wip = (r.topics || []).indexOf(WIP_TOPIC) > -1;
-        return r;
+  var CACHE_KEY = "repos-" + GITHUB_USER;
+  var UMA_HORA = 3600000;
+
+  // Filtra, marca "em desenvolvimento" e desenha os cartões
+  var aplicar = function (data) {
+    var real = data.filter(function (r) {
+      return !r.fork && r.name !== GITHUB_USER + ".github.io";   // esconde forks e o repositório do próprio site
+    }).map(function (r) {
+      r.wip = (r.topics || []).indexOf(WIP_TOPIC) > -1;
+      return r;
+    });
+    if (real.length) { repos = real; note.textContent = ""; render(); }
+  };
+
+  // Cópia guardada no navegador (evita bater no limite do GitHub)
+  var guardado = null;
+  try { guardado = JSON.parse(localStorage.getItem(CACHE_KEY)); } catch (e) {}
+  var recente = guardado && (Date.now() - guardado.t < UMA_HORA);
+
+  if (recente) {
+    aplicar(guardado.d);
+  } else {
+    fetch("https://api.github.com/users/" + GITHUB_USER + "/repos?sort=updated&per_page=30")
+      .then(function (r) {
+        if (!r.ok) throw new Error("o GitHub respondeu " + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify({ t: Date.now(), d: data })); } catch (e) {}
+        aplicar(data);
+      })
+      .catch(function (erro) {
+        console.log("Erro ao buscar projetos:", erro);
+        note.textContent = "Não foi possível carregar seus projetos do GitHub agora (" + erro.message + "). Mostrando exemplos.";
+        if (guardado) aplicar(guardado.d);   // usa a cópia antiga, se existir
       });
-      if (real.length) { repos = real; note.textContent = ""; render(); }
-    })
-    .catch(function () {});
+  }
 }
